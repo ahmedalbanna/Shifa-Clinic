@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account details and roles",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["doctor", "pharmacist", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Patient medical record information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "gender": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date-time" },
+        "medicalHistory": { "type": "string" },
+        "pastDiagnoses": { "type": "string" },
+        "surgeries": { "type": "string" },
+        "allergies": { "type": "string" },
+        "familyHistory": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Scheduled clinic visits",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "patientId": { "type": "string" },
+        "patientName": { "type": "string" },
+        "dateTime": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["scheduled", "consulting", "completed", "cancelled"] },
+        "notes": { "type": "string" }
+      },
+      "required": ["patientId", "dateTime", "status"]
+    },
+    "Prescription": {
+      "title": "Prescription",
+      "description": "Medicine prescription record",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "doctorId": { "type": "string" },
+        "consultationId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "medicines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "medicineId": { "type": "string" },
+              "medicineName": { "type": "string" },
+              "dosage": { "type": "string" },
+              "duration": { "type": "string" },
+              "instructions": { "type": "string" }
+            }
+          }
+        },
+        "status": { "type": "string", "enum": ["active", "dispensed", "expired"] }
+      },
+      "required": ["patientId", "doctorId", "status"]
+    },
+    "Medicine": {
+      "title": "Medicine",
+      "description": "Medicine item information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "unit": { "type": "string" },
+        "minStockLevel": { "type": "number" }
+      },
+      "required": ["name", "price"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Billing information",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "paid"] },
+        "lineItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "quantity": { "type": "number" },
+              "unitPrice": { "type": "number" },
+              "subtotal": { "type": "number" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "totalAmount", "status"]
+    },
+    "Reminder": {
+      "title": "Reminder",
+      "description": "Appointment reminders",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "appointmentId": { "type": "string" },
+        "type": { "type": "string", "enum": ["sms", "email"] },
+        "status": { "type": "string", "enum": ["pending", "sent", "failed"] },
+        "message": { "type": "string" },
+        "sentAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["patientId", "appointmentId", "status"]
+    }
+  },
+  "firestore": {
+    "users": { "schema": "User", "description": "User profiles" },
+    "patients": { "schema": "Patient", "description": "Patient records" },
+    "appointments": { "schema": "Appointment", "description": "Schedules" },
+    "consultations": { "schema": "Consultation", "description": "Medical sessions" },
+    "prescriptions": { "schema": "Prescription", "description": "Medical prescriptions" },
+    "medicines": { "schema": "Medicine", "description": "Pharmacy inventory items" },
+    "batches": { "schema": "Batch", "description": "Medicine batches" },
+    "invoices": { "schema": "Invoice", "description": "Billing records" },
+    "reminders": { "schema": "Reminder", "description": "Reminders log" }
+  }
+}

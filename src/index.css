@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-primary: #0284c7;
+  --color-secondary: #0f172a;
+  --color-accent: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-app-bg: #f8fafc;
+}
+
+@layer base {
+  body {
+    @apply bg-[--color-app-bg] text-[--color-secondary] transition-colors duration-200 antialiased;
+    font-family: var(--font-sans);
+  }
+  
+  .dark body {
+    @apply bg-slate-950 text-slate-50;
+  }
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+/* Custom layout classes matching the theme */
+.panel {
+  @apply bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-none;
+}
+
+.panel-header {
+  @apply px-5 py-4 border-b border-slate-200 dark:border-slate-800 font-semibold flex justify-between items-center;
+}
+
+.sidebar-item-active {
+  @apply bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 border-r-4 border-sky-600 dark:border-sky-400;
+}
+
+.rtl .sidebar-item-active {
+  @apply border-l-0 border-r-4;
+}
+
+.ltr .sidebar-item-active {
+  @apply border-r-0 border-l-4;
+}
